@@ -107,20 +107,20 @@
         </div>
         <div
           v-if="currentSlide.prompts && !currentResult"
-          class="prompts mb-5"
+          class="prompts my-10"
         >
           <div
-            class="prompt relative"
+            class="prompt relative mx-auto md:flex md:space-x-6 md:mb-5"
             v-for="(prompt, index) in currentSlide.prompts"
             :key="index"
           >
               <div
-                class="prompt__title pt-5 pb-2 md:pb-5 md:bg-white md:rounded-3xl font-normal"
+                class="prompt__title pt-5 pb-2 md:pb-5 md:bg-white md:rounded-3xl md:flex-1 font-normal"
               >
                 {{ prompt.title }}
               </div>
               <div
-                class="prompt__input flex justify-between md:pb-5 md:bg-white md:rounded-3xl "
+                class="prompt__input flex justify-between md:pb-5 md:bg-white md:rounded-3xl md:flex-1"
               >
                 <div
                   v-if="balance_prompts[index]"
@@ -186,7 +186,7 @@ export default {
           { title: 'Коммунальные платежи', placeholder: 'Введите сумму', tooltip: false, append: 'в месяц', },
           { title: 'Другие траты', placeholder: 'Введите сумму', tooltip: false, append: 'в месяц', } ],
           nextButton: 'Дальше' },
-        { 'n': 2, 'background-image': "pulp", text: "Давайте решим как вы питаетесь.<br/>Выберите наиболее подходящий себе рацион.", prompts: [ { title: false, placeholder: 'Введите сумму', tooltip: '!  Введите данные, чтобы начать игру', append: false, } ], },
+        { 'n': 2, 'background-image': "pulp", text: '<p class="font-medium">Давайте решим как вы питаетесь.<br/>Выберите наиболее подходящий себе рацион.</p>', prompts: [ { title: false, placeholder: 'Введите сумму', tooltip: '!  Введите данные, чтобы начать игру', append: false, } ], },
         { 'n': 3, 'background-color': 'bg-green', 'background-image': false, text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", prompts: [ { title: false, placeholder: 'Введите сумму', tooltip: '!  Введите данные, чтобы начать игру', append: false, } ], },],
       currentResult: null,
       results: [ {status: 'gameOver', html: '<p>УПС!</p><p>К сожалению, вам не хватило денег на все траты.</p><p>Предлагаем вам взять первый микрозайем <b>под 0% на 30 дней.</b></p>'},
@@ -620,10 +620,13 @@ body {
 
     .task__text {
       max-width: 25em;
+      line-height: 1.2;
     }
   }
 
   .prompt {
+
+    max-width: 40em;
     
     @media (min-width: 760px) {
       font-size: 1.375em
@@ -634,6 +637,16 @@ body {
     
       @media (min-width: 760px) {
         font-size: 1.875em;
+      }
+    }
+
+    .prompt__title, .prompt__input {
+
+      @media (min-width: 760px) {
+        height: 4em;
+        align-items: center;
+        padding: 1em;
+        line-height: 2;
       }
     }
   }
@@ -707,13 +720,6 @@ body {
           left: 1em;
         }
       }
-    }
-  }
-
-  .prompt__title, .prompt__input {
-
-    @media (min-width: 760px) {
-      max-width: 48%;
     }
   }
 
