@@ -16,7 +16,7 @@
     class="header-main relative w-100"
   >
     <div
-      class="header-main__logo p-5 md:pt-12 md:pl-16"
+      class="header-main__logo"
     >
       <img
         class="header-main__moneyman m-auto md:m-0 cursor-pointer"
@@ -26,9 +26,9 @@
         />
     </div>
   </div>
-  <div class="main px-5">
+  <div class="main">
     <div class="title pt-0">
-      <h1 class="title__title pb-1.5">
+      <h1 class="title__title">
         Заработай первый миллион
       </h1>
       <div class="title__subtitle">
@@ -36,8 +36,8 @@
       </div>
     </div>
 
-    <div class="status md:pr-16">
-      <div class="status__progress pt-2">
+    <div class="status">
+      <div class="status__progress">
         <div
           class="status__progress__bullet is_active"
           :style="'transform: translateX('+ (currentSlide.n - 1) * 1.5 + 'em);'"
@@ -49,7 +49,7 @@
         />
       </div>
       <div
-        class="status__balance rounded-lg md:rounded-3xl px-5 md:pl-10 md:pr-12 pt-4 pb-5 -mb-5 md:pb-20 md:-mb-20"
+        class="status__balance rounded-lg md:rounded-3xl"
         :class="[currentSlide['background-color'] ? 'bg-white' : 'bg-green', { 'opacity-0': !balance && !currentResult }]"
       >
         <span>Баланс:</span>&nbsp;<b>{{ balance | toCurrency }}</b>
@@ -60,19 +60,19 @@
       <div class="background__content w-full h-full absolute rounded-lg md:rounded-3xl">
         <div class="noise__content w-full h-full"/>
       </div>
-      <div class="slide w-full h-full relative p-5 flex flex-col justify-center">
+      <div class="slide w-full h-full relative flex flex-col justify-center">
         <div
           v-if="!currentResult"
-          class="task pt-5 flex flex-col justify-center"
+          class="task flex flex-col justify-center"
         >
           <div
             v-show="currentSlide.title"
-            class="task__title mt-5"
+            class="task__title"
           >
             {{ currentSlide.title }}
           </div>
           <div
-            class="task__text mt-5"
+            class="task__text"
             v-html="currentSlide.text"
           />
         </div>
@@ -107,7 +107,7 @@
               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
               v-on:focus="tooltip = false"
               v-on:keyup.enter="changeSlide()"
-              class="block my-16 mx-auto bg-transparent border-b font-medium border-black border-opacity-25 text-center balance-input"
+              class="block mx-auto bg-transparent border-b font-medium border-black border-opacity-25 text-center balance-input"
             />
           </div>
         </div>
@@ -116,17 +116,17 @@
           class="prompts my-10"
         >
           <div
-            class="prompt relative mx-auto md:flex md:space-x-6 md:mb-5"
+            class="prompt relative mx-auto md:flex md:space-x-6"
             v-for="(prompt, index) in currentSlide.prompts"
             :key="index"
           >
               <div
-                class="prompt__title pt-5 pb-2 md:pb-5 md:bg-white md:bg-opacity-50 md:rounded-3xl md:flex-1 font-normal"
+                class="prompt__title md:bg-white md:bg-opacity-50 md:rounded-3xl md:flex-1 font-normal"
               >
                 {{ prompt}}
               </div>
               <div
-                class="prompt__input flex justify-between md:pb-5 md:bg-white md:rounded-3xl md:flex-1"
+                class="prompt__input flex justify-between md:bg-white md:rounded-3xl md:flex-1"
               >
                 <div
                   v-if="balance_prompts[index]"
@@ -190,7 +190,7 @@
         </div>
         <button
           v-if="currentSlide.nextButton"
-          class="rounded-lg md:rounded-3xl p-5 font-light mx-auto mt-auto mb-2 md:mb-10 block w-full next-button"
+          class="rounded-lg md:rounded-3xl font-light mx-auto mt-auto block w-full next-button"
           :class="currentSlide['background-color'] ? 'bg-white' : 'bg-white md:bg-green'"
           style="max-width: 18em;"
           v-on:click="currentSlide.href ? externalLink(currentSlide.href) : changeSlide()"
@@ -211,37 +211,37 @@ export default {
       balance: null,
       tooltip: false,
       balance_prompts: [],
-      currentSlide: { 'n': 1, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", nextButton: 'Начать' },
-      slides: [ { 'n': 1, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", nextButton: 'Начать' },
-        { 'n': 2, 'background-image': 'pulp', title: false, text: '<p class="font-medium">Внесите сюда регулярные траты, которые даже в случае потери работы вы не сможете уменьшить.</p>', prompts: [ 'Аренда квартиры', 'Кредит', 'Коммунальные платежи', 'Другие траты' ], nextButton: 'Дальше' },
-        { 'n': 3, text: '<p class="font-medium">Давайте решим как вы питаетесь.<br/>Выберите наиболее подходящий себе рацион.</p>', buttons: [ 
-          { text: "Закупаюсь на неделю продуктами, готовлю только дома, иногда делаю доставку/хожу в общественные места", price: 15000, },
+      currentSlide: { 'n': 1, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы&nbsp;сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы&nbsp;просим указать вашу заработную плату за&nbsp;месяц, а&nbsp;также все дополнительные доходы.", nextButton: 'Начать' },
+      slides: [ { 'n': 1, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы&nbsp;сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы&nbsp;просим указать вашу заработную плату за&nbsp;месяц, а&nbsp;также все дополнительные доходы.", nextButton: 'Начать' },
+        { 'n': 2, 'background-image': 'pulp', title: false, text: '<p class="font-medium">Внесите сюда регулярные траты, которые даже в&nbsp;случае потери работы вы&nbsp;не сможете уменьшить.</p>', prompts: [ 'Аренда квартиры', 'Кредит', 'Коммунальные платежи', 'Другие траты' ], nextButton: 'Дальше' },
+        { 'n': 3, text: '<p class="font-medium">Давайте решим как вы&nbsp;питаетесь.<br/>Выберите наиболее подходящий себе рацион.</p>', buttons: [ 
+          { text: "Закупаюсь на&nbsp;неделю продуктами, готовлю только дома, иногда делаю доставку/хожу в&nbsp;общественные места", price: 15000, },
           { text: "Покупаю продукты эконом-класса, питаюсь скромно", price: 7000, result: 'illness', },
-          { text: "Питаюсь в основном доставкой, либо в кафе/ресторанах", price: 30000, },
+          { text: "Питаюсь в&nbsp;основном доставкой, либо в&nbsp;кафе/ресторанах", price: 30000, },
           { text: "Живу с родителями, они оплачивают мне еду, иногда заказываю доставку или хожу в ресторан", price: 4000, } ], },
-        { 'n': 4, 'background-color': 'bg-green', text: '<p class="font-normal">Теперь давайте поговорим о непредвиденных расходах и посмотрим как вы поведете себя в той или иной ситуации.<br/><br/>Учтите, что дешевый вариант не всегда самый выгодный.</p>', nextButton: 'Дальше' },
-        { 'n': 5, 'background-image': 'tesla', text: '<p class="font-medium">Вы собрались в поездку на дачу, но за день до поездки у вас сломалась машина.</p>', buttons: [ 
+        { 'n': 4, 'background-color': 'bg-green', text: '<p class="font-normal">Теперь давайте поговорим о&nbsp;непредвиденных расходах и&nbsp;посмотрим, как вы&nbsp;поведете себя в&nbsp;той&nbsp;или&nbsp;иной ситуации.<br/><br/>Учтите, что дешевый вариант не&nbsp;всегда самый выгодный.</p>', nextButton: 'Дальше' },
+        { 'n': 5, 'background-image': 'tesla', text: '<p class="font-medium">Вы собрались в&nbsp;поездку на&nbsp;дачу, но за&nbsp;день до&nbsp;поездки у&nbsp;вас сломалась машина.</p>', buttons: [ 
           { text: "Починить у друга, но есть риск, что придется чинить еще раз.", price: 7000, },
           { text: "Починить в официальном сервисе", price: 15000, },
           { text: "Оставить починку на следующий месяц, потратить на общественный транспорт", price: 3000, },
           { text: "Продолжить ездить на сломанной машине", price: 10000, result: 'car' } ], },
-        { 'n': 6, 'background-image': 'bestman', text: '<p class="font-medium">Близкие друзья пригласили вас на свадьбу, еще несколько месяцев назад, но вы забыли об этом. Поэтому все траты легли на вас в этом месяце.</p>', buttons: [ 
+        { 'n': 6, 'background-image': 'bestman', text: '<p class="font-medium">Близкие друзья пригласили вас на&nbsp;свадьбу, еще несколько месяцев назад, но&nbsp;вы забыли об&nbsp;этом. Поэтому все траты легли на вас в&nbsp;этом месяце.</p>', buttons: [ 
           { text: "Отказаться от приглашения, сославшись на придуманную легенду.<br/>Испортить отношения с друзьями.", price: 0, },
-          { text: "Пойти на свадьбу в старом костюме/платье, подарить хороший подарок", price: 10000, result: 'На свадьбе вы встретите любовь всей своей жизни, которая даже не обратит на вас внимания'},
+          { text: "Пойти на свадьбу в старом костюме/платье, подарить хороший подарок", price: 10000, result: 'На свадьбе вы&nbsp;встретите любовь всей своей жизни, которая даже не&nbsp;обратит на&nbsp;вас внимания'},
           { text: "Попросить у друзей вечерний наряд, сделать подарок своими руками", price: 2000, result: 'laundry' },
           { text: "Собраться в салоне, взять костюме напрокат, заказать подарок", price: 15000, result: 'friend' } ], },
-        { 'n': 7, 'background-image': 'wonka', text: '<p class="font-medium">О нет! Ваш телефон упал в тарелку с борщем, когда вы делали фото для Instagram! Вы его быстро вытащили, но он все равно перестал подавать признаки жизни. Что будете делать?</p>', buttons: [ 
+        { 'n': 7, 'background-image': 'wonka', text: '<p class="font-medium">О нет! Ваш телефон упал в&nbsp;тарелку с&nbsp;борщем, когда вы&nbsp;делали фото для&nbsp;Instagram! Вы его быстро вытащили, но&nbsp;он все равно перестал подавать признаки жизни. Что будете делать?</p>', buttons: [ 
           { text: "Починю старый", price: 2500, result: 'lame' },
           { text: "Купить себе новый телефон", price: 10000 },
           { text: "Купить себе самый современный гаджет", price: 100000 },
           { text: "Взять телефон в лизинг", price: 5400, result: 'promo', monthly: true } ], },
-        { 'n': 8, 'background-color': 'bg-green', text: '<p class="font-normal">Перейдем к запланированным тратам, но которые требуют ежемесячных затрат.</p>', nextButton: 'Дальше' },
-        { 'n': 9, 'background-image': 'pulp', text: '<p class="font-medium">Вы хотите отправиться в конце года с семьей / друзьями в отпуск.</p>', buttons: [ 
+        { 'n': 8, 'background-color': 'bg-green', text: '<p class="font-normal">Перейдем к&nbsp;запланированным тратам, но&nbsp;которые требуют ежемесячных затрат.</p>', nextButton: 'Дальше' },
+        { 'n': 9, 'background-image': 'pulp', text: '<p class="font-medium">Вы хотите отправиться в&nbsp;конце года с семьей&nbsp;/&nbsp;друзьями в&nbsp;отпуск.</p>', buttons: [ 
           { text: "Отель в Турции All-inclusive, для этого вы начали откладывать", price: 15000, monthly: true },
           { text: "Отдых на курортах Краснодарского края", price: 7000, monthly: true  },
           { text: "Отдых у бабушки в деревне", price: 0, monthly: true  },
           { text: "Путешествие по Европе на автобусе", price: 10000, monthly: true } ], },
-        { 'n': 10, 'background-image': 'pulp', text: '<p class="font-medium"> Вы решили задуматься о своём здоровье. Выберите пункты трат, которые вам актуальны.</p>', buttons: [ 
+        { 'n': 10, 'background-image': 'pulp', text: '<p class="font-medium"> Вы решили задуматься о&nbsp;своём здоровье. Выберите пункты трат, которые вам актуальны.</p>', buttons: [ 
           { text: "Сделать полный check-in здоровья", price: 10000 },
           { text: "Абонемент в фитнес зал", price: 4500, monthly: true  },
           { text: "Покупка витаминов", price: 2000 },
@@ -261,7 +261,7 @@ export default {
           this.currentSlide.nextButton = 'Перейти'
           this.currentSlide['background-image'] = false
           this.currentSlide.href = 'https://moneyman.ru/warranty/#tab0'
-          return '<p>УПС!</p><p>К сожалению, вам не хватило денег на все траты.</p><p>Предлагаем вам взять первый микрозайем <b>под 0% на 30 дней.</b></p>'
+          return '<p>УПС!</p><p>К сожалению, вам не&nbsp;хватило денег на&nbsp;все траты.</p><p>Предлагаем вам взять первый микрозайем <b>под 0%&nbsp;на&nbsp;30&nbsp;дней.</b></p>'
         case 'success':
           this.resultImg = 'success'
           this.currentSlide.nextButton = false
@@ -274,7 +274,7 @@ export default {
           this.currentSlide['background-color'] = 'bg-green'
           this.balance -= 7000
           this.balance_prompts = [5000]
-          return '<p style="margin-top:1.25em;">Побочным эффектом являются проблемы со здоровьем, дополнительные траты — 5 000 ₽ на поход к врачу</p>'
+          return '<p style="margin-top:1.25em;">Побочным эффектом являются проблемы со&nbsp;здоровьем, дополнительные траты —&nbsp;5&nbsp;000&nbsp;₽ на&nbsp;поход к&nbsp;врачу</p>'
         case 'car':
           this.resultImg = 'gameOver'
           this.currentSlide.nextButton = 'Дальше'
@@ -282,7 +282,7 @@ export default {
           this.currentSlide['background-color'] = 'bg-green'
           this.balance -= 10000
           this.balance_prompts = [20000]
-          return '<p>Прилется заплатить за эвакуатор — 20 000 ₽</p>'
+          return '<p>Прилется заплатить за&nbsp;эвакуатор —&nbsp;20&nbsp;000&nbsp;₽</p>'
         case 'laundry':
           this.resultImg = 'gameOver'
           this.currentSlide.nextButton = 'Дальше'
@@ -290,7 +290,7 @@ export default {
           this.currentSlide['background-color'] = 'bg-green'
           this.balance -= 2000
           this.balance_prompts = [5000]
-          return '<p>На свадьбе вы испачкали костюм/платье друзей, необходимо отдать в химчистку — 5 000 ₽</p>'
+          return '<p>На свадьбе вы&nbsp;испачкали костюм/платье друзей, необходимо отдать в&nbsp;химчистку —&nbsp;5&nbsp;000&nbsp;₽</p>'
         case 'friend':
           this.resultImg = 'success'
           this.currentSlide.nextButton = 'Дальше'
@@ -298,7 +298,7 @@ export default {
           this.currentSlide['background-color'] = 'bg-green'
           this.balance -= 15000
           this.balance_prompts = [-20000]
-          return '<p>На свадьбе вы встретили бывшего одноклассника, который предложил вам подработку на неделю + 20 000 ₽</p>'
+          return '<p>На свадьбе вы&nbsp;встретили бывшего одноклассника, который предложил вам подработку на&nbsp;неделю +&nbsp;20&nbsp;000&nbsp;₽</p>'
         case 'lame':
           this.resultImg = 'gameOver'
           this.currentSlide.nextButton = 'Дальше'
@@ -306,16 +306,16 @@ export default {
           this.currentSlide['background-color'] = 'bg-green'
           this.balance -= 2500
           this.balance_prompts = [1500]
-          return '<p>Чинили вы в плохом сервисе, поэтому он сломался снова — 1 500 ₽ за повторную починку</p>'
+          return '<p>Чинили вы в&nbsp;плохом сервисе, поэтому он&nbsp;сломался снова —&nbsp;1&nbsp;500&nbsp;₽ за&nbsp;повторную починку</p>'
         case 'promo':
           this.resultImg = 'success'
           this.currentSlide.nextButton = 'Дальше'
           this.currentSlide['background-image'] = false
           this.currentSlide['background-color'] = 'bg-green'
           this.balance_prompts = []
-          return '<p>Поздравляем, в компании проходила акция, и вы выиграли этот телефон в подарок</p>'
+          return '<p>Поздравляем, в&nbsp;компании проходила акция, и&nbsp;вы выиграли этот телефон в&nbsp;подарок</p>'
         default:
-          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide.nextButton = this.currentSlide.nextButton ? this.currentSlide.nextButton : 'Дальше'
           this.currentSlide['background-image'] = false
           this.currentSlide['background-color'] = 'bg-green'
           return '<p>' + this.currentResult + '</p>'
@@ -529,11 +529,20 @@ body {
       display: block;
   }
 
-  .header-main__logo img {
-    width: 11.125em;
+  .header-main__logo {
+    padding: 1.25em;
 
     @media (min-width: 760px) {
-      width: 15.625em;
+      padding-left: 4em;
+      padding-top: 3em;
+    }
+    
+    img {
+      width: 11.125em;
+
+      @media (min-width: 760px) {
+        width: 15.625em;
+      }
     }
   }
 }
@@ -595,6 +604,7 @@ body {
   -ms-flex: 1;
   -webkit-box-flex: 1;
   flex: 1;
+  padding: 0 1.25em;
 
   @media screen and (min-width: 760px) {
     -ms-flex: 0 1 auto;
@@ -614,17 +624,17 @@ body {
     padding-bottom: 1.75em;
 
     @media (min-width: 760px) {
-      padding-bottom: 3em;
+      padding-bottom: 2.5em;
     }
 
   .title__title {
     font-weight: 400;
     font-size: 1.25em;
+    padding-bottom: 0.25em;
 
     @media screen and (min-width: 760px) {
       font-size: 3em;
     }
-
   }
 
   .title__subtitle {
@@ -643,12 +653,19 @@ body {
 }
 
 .status {
-    -ms-flex-align: center;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-bottom: .5em;
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: .5em;
 
-  .status__progress__bullet {
+  @media (min-width: 760px) {
+    padding-right: 4em;
+  }
+
+  .status__progress {
+    padding-top: 0.5em;
+    
+    .status__progress__bullet {
       font-size: .625em;
       width: 1em;
       height: 1em;
@@ -670,6 +687,7 @@ body {
         z-index: 0;
         transition: transform 0.5s cubic-bezier(0.49, 2.02, 0.69, 0.74);
       }
+    }
   }
 }
 
@@ -692,7 +710,14 @@ body {
 
 .status__balance {
   transition: opacity .2s ease;
-  
+  padding: 1em 1.25em 1.25em;
+  margin-bottom: -1.25em;
+
+  @media (min-width: 760px) {
+    padding: 1em 2.5em 5em 3em;
+    margin-bottom: -5em;
+  }
+
   span {
     font-size: 0.875em;
 
@@ -712,7 +737,6 @@ body {
 }
 
 .content {
-
   
   .background__content {
     backdrop-filter: blur(60px);
@@ -734,15 +758,18 @@ body {
 
   .slide { 
     min-height: 60vh;
+    padding: 1.25em;
   }
 
   .task {
     text-align: center;
     margin: auto;
     letter-spacing: -1px;
+    padding-top: 1.25em;
 
     @media (min-width: 760px) {
       font-size: 2em;
+      padding-top: .625em;
     }
 
     .task__title {
@@ -750,6 +777,7 @@ body {
       font-weight: 700;
       line-height: 2;
       letter-spacing: 0;
+      margin-top: 1em;
 
       @media (min-width: 760px) {
         font-size: 1em;
@@ -759,7 +787,17 @@ body {
     .task__text {
       max-width: 25em;
       line-height: 1.2;
+      margin-top: 1.25em;
+
+      @media (min-width: 760px) {
+        margin-top: .625em;
+      }
     }
+  }
+
+  .my-10 {
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
   }
 
   .prompt {
@@ -768,6 +806,7 @@ body {
     
     @media (min-width: 760px) {
       font-size: 1.375em;
+      margin-bottom: .9em;
     }
     
     &.balance-prompt {
@@ -778,6 +817,11 @@ body {
       }
     }
 
+    .prompt__title {
+        padding-bottom: 0.5em;
+        padding-top: 1.25em;
+    }
+
     .prompt__title, .prompt__input {
 
       @media (min-width: 760px) {
@@ -786,14 +830,15 @@ body {
         align-items: center;
         padding: 1em;
         line-height: 2;
+        padding-bottom: 1.25em;
       }
-    }
 
-    &:focus-within {
-      .prompt__title, .prompt__input {
+      &:focus-within {
+        .prompt__title, .prompt__input {
 
-        @media (min-width: 760px) {
-          --tw-bg-opacity: 1;
+          @media (min-width: 760px) {
+            --tw-bg-opacity: 1;
+          }
         }
       }
     }
@@ -817,8 +862,14 @@ body {
 
   .balance-input {
 
+    margin-top: 3em;
+    margin-bottom: 3em;
+
     @media (min-width: 760px) {
       width: 14em;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      
     }
   }
 
@@ -846,11 +897,12 @@ body {
       display: block;
       max-width: 22em;
       line-height: 2.5;
+      padding-left: 2em;
+      padding-right: 2em;
 
       @media (min-width: 760px) {
         left: 62%;
         font-size: 0.6em;
-        line-height: 2.2;
       }
 
       &::before {
@@ -872,9 +924,13 @@ body {
   }
 
   .next-button {
+    padding: 1.25em;
+    margin-bottom: 0.5em;
     
     @media (min-width: 760px) {
       font-size: 1.375em;
+      padding: 1.2em;
+      margin-bottom: 1.818182rem;
       max-width: 17.636363em;
     }
   }
@@ -882,8 +938,13 @@ body {
   .result {
 
     img {
+      width: 5em;
       -webkit-animation: fade_from_bottom .3s forwards ease-out;
       animation: fade_from_bottom .3s forwards ease-out;
+      
+      @media (min-width: 760px) {
+        width: 8em;
+      }
     }
 
     div {
@@ -891,7 +952,7 @@ body {
       max-width: 50em;
 
       p {
-        margin-bottom: 1em;
+        margin-bottom: .5em;
         font-weight: 400;
     
         @media (min-width: 760px) {
