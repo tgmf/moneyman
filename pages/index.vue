@@ -8,6 +8,7 @@
     :class="[ { is_loaded: loaded }, currentSlide['background-color'] ? currentSlide['background-color'] : '' ]"
   />
   <div
+    v-if="currentSlide['background-image']"
     class="background-image w-screen h-screen fixed hidden md:block"
     :style="'background-image: url(/img/' + currentSlide['background-image'] + '.png);'"
   />
@@ -18,9 +19,10 @@
       class="header-main__logo p-5 md:pt-12 md:pl-16"
     >
       <img
-        class="header-main__moneyman m-auto md:m-0"
+        class="header-main__moneyman m-auto md:m-0 cursor-pointer"
         :data-quest-slide="currentSlide['n']"
         src="/img/logo.svg"
+        v-on:click="externalLink('https://moneyman.ru/')"
         />
     </div>
   </div>
