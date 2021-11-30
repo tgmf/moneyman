@@ -153,7 +153,7 @@
           class="buttons my-10"
         >
           <button
-            class="button relative text-left mx-auto flex justify-between bg-white rounded-lg md:rounded-3xl"
+            class="button relative text-left mx-auto flex justify-between items-center bg-white rounded-lg md:rounded-3xl"
             v-for="(button, index) in currentSlide.buttons"
             :key="index"
             :disabled="balance - button.price < 0"
@@ -1006,14 +1006,25 @@ body {
         padding-right: 1.2em;
         align-items: center;
         height: 100%;
+        font-size: .8125em;
+        
+        @media (min-width: 760px) {
+          font-size: 1.375em;
+        }
       }
 
       .button__price {
         padding-left: 1.2em;
         height: 100%;
         align-items: center;
-        width: 10em;
+        width: 5em;
         border-left: solid 1px rgba(0, 0, 0, 0.2);
+        font-size: .875em;
+
+        @media (min-width: 760px) {
+          width: 10em;
+          font-size: 1.375em;
+        }
       }
     }
   }
