@@ -103,7 +103,7 @@
               type="number"
               v-model.number="balance"
               placeholder="Введите сумму"
-              maxlength=12
+              maxlength=7
               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
               v-on:focus="tooltip = false"
               v-on:keyup.enter="changeSlide()"
@@ -113,7 +113,7 @@
         </div>
         <div
           v-if="currentSlide.prompts && !currentResult"
-          class="prompts my-10"
+          class="prompts"
         >
           <div
             class="prompt relative mx-auto md:flex md:space-x-6"
@@ -766,7 +766,6 @@ body {
     text-align: center;
     margin: auto;
     letter-spacing: -1px;
-    padding-top: 1.25em;
 
     @media (min-width: 760px) {
       font-size: 2em;
@@ -801,6 +800,22 @@ body {
     margin-bottom: 2.5em;
   }
 
+  .md\:my-10 {
+    @media (min-width: 760px) {
+      margin-top: 2.5em;
+      margin-bottom: 2.5em;
+    }
+  }
+
+  .prompts {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    
+    @media (min-width: 760px) {
+      margin-top: 2.5em;
+    }
+  }
+
   .prompt {
 
     max-width: 40em;
@@ -811,6 +826,8 @@ body {
     }
     
     &.balance-prompt {
+      margin-top: .5em;
+      margin-bottom: 1em;
       font-size: 1.375em;
     
       @media (min-width: 760px) {
@@ -819,8 +836,11 @@ body {
     }
 
     .prompt__title {
-        padding-bottom: 0.5em;
-        padding-top: 1.25em;
+      padding-top: 0.75em;
+    }
+
+    .prompt__input {
+      padding-bottom: 0.5em;
     }
 
     .prompt__title, .prompt__input {
@@ -863,14 +883,8 @@ body {
 
   .balance-input {
 
-    margin-top: 3em;
-    margin-bottom: 3em;
-
     @media (min-width: 760px) {
       width: 14em;
-      margin-top: 2em;
-      margin-bottom: 2em;
-      
     }
   }
 
@@ -966,11 +980,6 @@ body {
   .buttons {
     margin-top: 2.5em;
     margin-bottom: 2.5em;
-    
-    @media (min-width: 760px) {
-      margin-top: 1.25em;
-      margin-bottom: 1.25em;
-    }
 
     .button {
 
