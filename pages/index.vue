@@ -165,7 +165,7 @@
               <span v-html="button.text" />
             </div>
             <div
-              class="button__price flex flex-shrink-0 justify-center"
+              class="button__price flex flex-wrap flex-shrink-0 justify-center"
             >
               <span>{{ button.price | toCurrency }}</span>
               <span
