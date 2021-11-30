@@ -1007,14 +1007,15 @@ body {
         align-items: center;
         height: 100%;
         font-size: .8125em;
+        line-height: 1;
         
         @media (min-width: 760px) {
-          font-size: 1.375em;
+          font-size: 1em;
         }
       }
 
       .button__price {
-        padding-left: 1.2em;
+        padding-left: .5em;
         height: 100%;
         align-items: center;
         width: 5em;
@@ -1022,8 +1023,8 @@ body {
         font-size: .875em;
 
         @media (min-width: 760px) {
-          width: 10em;
-          font-size: 1.375em;
+          width: 8em;
+          font-size: 1em;
         }
       }
     }
