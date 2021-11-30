@@ -40,9 +40,13 @@
       <div class="status__progress pt-2">
         <div
           class="status__progress__bullet is_active"
-          :style="'transform: translateX('+ currentSlide.n * 1.5 + 'em);'"
+          :style="'transform: translateX('+ (currentSlide.n - 1) * 1.5 + 'em);'"
         />
-        <div class="status__progress__bullet"></div><div class="status__progress__bullet"></div><div class="status__progress__bullet"></div><div class="status__progress__bullet"></div><div class="status__progress__bullet"></div><div class="status__progress__bullet"></div><div class="status__progress__bullet"></div>
+        <div
+          v-for="n in slides.length"
+          :key="n"
+          class="status__progress__bullet"
+        />
       </div>
       <div
         class="status__balance rounded-lg md:rounded-3xl px-5 md:pl-10 md:pr-12 pt-4 pb-5 -mb-5 md:pb-20 md:-mb-20"
@@ -73,7 +77,7 @@
           />
         </div>
         <div
-          v-if="currentSlide.n == 0"
+          v-if="currentSlide.n == 1"
           class="prompts"
         >
           <div
@@ -117,9 +121,9 @@
             :key="index"
           >
               <div
-                class="prompt__title pt-5 pb-2 md:pb-5 md:bg-white md:rounded-3xl md:flex-1 font-normal"
+                class="prompt__title pt-5 pb-2 md:pb-5 md:bg-white md:bg-opacity-50 md:rounded-3xl md:flex-1 font-normal"
               >
-                {{ prompt.title }}
+                {{ prompt}}
               </div>
               <div
                 class="prompt__input flex justify-between md:pb-5 md:bg-white md:rounded-3xl md:flex-1"
@@ -140,21 +144,48 @@
                   v-on:keyup.enter="changeSlide()"
                   class="inline bg-transparent border-b font-medium border-black border-opacity-25"
                 />
-                <span>{{ prompt.append }}</span>
+                <span>в месяц</span>
               </div>
           </div>
         </div>
         <div
+          v-if="currentSlide.buttons && !currentResult"
+          class="buttons my-10"
+        >
+          <button
+            class="button relative text-left mx-auto flex justify-between bg-white rounded-lg md:rounded-3xl"
+            v-for="(button, index) in currentSlide.buttons"
+            :key="index"
+            :disabled="balance - button.price < 0"
+            v-on:click="balance_prompts.push(button.price); !button.result ? changeSlide() : currentResult = button.result"
+          >
+            <div
+              class="button__text flex justify-center"
+            >
+              <span v-html="button.text" />
+            </div>
+            <div
+              class="button__price flex flex-shrink-0 justify-center"
+            >
+              <span>{{ button.price | toCurrency }}</span>
+              <span
+                v-if="button.monthly"
+              >&nbsp;/&nbsp;месяц</span>
+            </div>
+          </button>
+        </div>
+        <div
           v-if="currentResult"
-          class="result"
+          class="result flex flex-col justify-center m-auto"
         >
           <img
-            :src="'/img/' + currentResult.status + '.png'"
+            v-if="resultImg"
+            :src="'/img/' + resultImg + '.png'"
             class="m-auto my-10"
           />
           <div
-            class="text-center"
-            v-html="currentResult.html"
+            class="text-center m-auto"
+            v-html="resultHtml"
           />
         </div>
         <button
@@ -180,41 +211,137 @@ export default {
       balance: null,
       tooltip: false,
       balance_prompts: [],
-      currentSlide: { 'n': 0, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", nextButton: 'Начать' },
-      slides: [ { 'n': 0, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", nextButton: 'Начать' },
-        { 'n': 1, 'background-image': 'pulp', title: false, text: '<p class="font-medium">Внесите сюда регулярные траты, которые даже в случае потери работы вы не сможете уменьшить.</p>', prompts: [ 
-          { title: 'Аренда квартиры', placeholder: 'Введите сумму', tooltip: false, append: 'в месяц', },
-          { title: 'Кредит', placeholder: 'Введите сумму', tooltip: false, append: 'в месяц', },
-          { title: 'Коммунальные платежи', placeholder: 'Введите сумму', tooltip: false, append: 'в месяц', },
-          { title: 'Другие траты', placeholder: 'Введите сумму', tooltip: false, append: 'в месяц', } ],
-          nextButton: 'Дальше' },
-        { 'n': 2, 'background-image': "pulp", text: '<p class="font-medium">Давайте решим как вы питаетесь.<br/>Выберите наиболее подходящий себе рацион.</p>', prompts: [ { title: false, placeholder: 'Введите сумму', tooltip: '!  Введите данные, чтобы начать игру', append: false, } ], },
-        { 'n': 3, 'background-color': 'bg-green', 'background-image': false, text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", prompts: [ { title: false, placeholder: 'Введите сумму', tooltip: '!  Введите данные, чтобы начать игру', append: false, } ], },],
+      currentSlide: { 'n': 1, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", nextButton: 'Начать' },
+      slides: [ { 'n': 1, 'background-color': 'bg-green', title: "Добро пожаловать!", text: "Пройдя нашу игру вы сможете узнать уровень вашей финансовой грамотности.<br/><br/>Для начала мы просим указать вашу заработную плату за месяц, а также все дополнительные доходы.", nextButton: 'Начать' },
+        { 'n': 2, 'background-image': 'pulp', title: false, text: '<p class="font-medium">Внесите сюда регулярные траты, которые даже в случае потери работы вы не сможете уменьшить.</p>', prompts: [ 'Аренда квартиры', 'Кредит', 'Коммунальные платежи', 'Другие траты' ], nextButton: 'Дальше' },
+        { 'n': 3, text: '<p class="font-medium">Давайте решим как вы питаетесь.<br/>Выберите наиболее подходящий себе рацион.</p>', buttons: [ 
+          { text: "Закупаюсь на неделю продуктами, готовлю только дома, иногда делаю доставку/хожу в общественные места", price: 15000, },
+          { text: "Покупаю продукты эконом-класса, питаюсь скромно", price: 7000, result: 'illness', },
+          { text: "Питаюсь в основном доставкой, либо в кафе/ресторанах", price: 30000, },
+          { text: "Живу с родителями, они оплачивают мне еду, иногда заказываю доставку или хожу в ресторан", price: 4000, } ], },
+        { 'n': 4, 'background-color': 'bg-green', text: '<p class="font-normal">Теперь давайте поговорим о непредвиденных расходах и посмотрим как вы поведете себя в той или иной ситуации.<br/><br/>Учтите, что дешевый вариант не всегда самый выгодный.</p>', nextButton: 'Дальше' },
+        { 'n': 5, 'background-image': 'tesla', text: '<p class="font-medium">Вы собрались в поездку на дачу, но за день до поездки у вас сломалась машина.</p>', buttons: [ 
+          { text: "Починить у друга, но есть риск, что придется чинить еще раз.", price: 7000, },
+          { text: "Починить в официальном сервисе", price: 15000, },
+          { text: "Оставить починку на следующий месяц, потратить на общественный транспорт", price: 3000, },
+          { text: "Продолжить ездить на сломанной машине", price: 10000, result: 'car' } ], },
+        { 'n': 6, 'background-image': 'bestman', text: '<p class="font-medium">Близкие друзья пригласили вас на свадьбу, еще несколько месяцев назад, но вы забыли об этом. Поэтому все траты легли на вас в этом месяце.</p>', buttons: [ 
+          { text: "Отказаться от приглашения, сославшись на придуманную легенду.<br/>Испортить отношения с друзьями.", price: 0, },
+          { text: "Пойти на свадьбу в старом костюме/платье, подарить хороший подарок", price: 10000, result: 'На свадьбе вы встретите любовь всей своей жизни, которая даже не обратит на вас внимания'},
+          { text: "Попросить у друзей вечерний наряд, сделать подарок своими руками", price: 2000, result: 'laundry' },
+          { text: "Собраться в салоне, взять костюме напрокат, заказать подарок", price: 15000, result: 'friend' } ], },
+        { 'n': 7, 'background-image': 'wonka', text: '<p class="font-medium">О нет! Ваш телефон упал в тарелку с борщем, когда вы делали фото для Instagram! Вы его быстро вытащили, но он все равно перестал подавать признаки жизни. Что будете делать?</p>', buttons: [ 
+          { text: "Починю старый", price: 2500, result: 'lame' },
+          { text: "Купить себе новый телефон", price: 10000 },
+          { text: "Купить себе самый современный гаджет", price: 100000 },
+          { text: "Взять телефон в лизинг", price: 5400, result: 'promo', monthly: true } ], },
+        { 'n': 8, 'background-color': 'bg-green', text: '<p class="font-normal">Перейдем к запланированным тратам, но которые требуют ежемесячных затрат.</p>', nextButton: 'Дальше' },
+        { 'n': 9, 'background-image': 'pulp', text: '<p class="font-medium">Вы хотите отправиться в конце года с семьей / друзьями в отпуск.</p>', buttons: [ 
+          { text: "Отель в Турции All-inclusive, для этого вы начали откладывать", price: 15000, monthly: true },
+          { text: "Отдых на курортах Краснодарского края", price: 7000, monthly: true  },
+          { text: "Отдых у бабушки в деревне", price: 0, monthly: true  },
+          { text: "Путешествие по Европе на автобусе", price: 10000, monthly: true } ], },
+        { 'n': 10, 'background-image': 'pulp', text: '<p class="font-medium"> Вы решили задуматься о своём здоровье. Выберите пункты трат, которые вам актуальны.</p>', buttons: [ 
+          { text: "Сделать полный check-in здоровья", price: 10000 },
+          { text: "Абонемент в фитнес зал", price: 4500, monthly: true  },
+          { text: "Покупка витаминов", price: 2000 },
+          { text: "Поход в СПА / массаж", price: 5400 } ], }, ],
       currentResult: null,
-      results: [ {status: 'gameOver', html: '<p>УПС!</p><p>К сожалению, вам не хватило денег на все траты.</p><p>Предлагаем вам взять первый микрозайем <b>под 0% на 30 дней.</b></p>'},
-      {status: 'success', html: '<p>Поздравляем!</p><p>Вы умеете грамотно распределять свои средства. На вашем счете осталось <b>14 000 ₽.</b></p><p>Предлагаем вам заняться инвестированием, чтобы приумножить свои финансы.</p>'}, ],
+      resultImg: false,
     }
   },
   created() {
     this.loaded = true
   },
+  computed: {
+    resultHtml () {
+      switch (this.currentResult) {
+        case 'gameOver':
+          this.resultImg = 'gameOver'
+          this.currentSlide.nextButton = 'Перейти'
+          this.currentSlide['background-image'] = false
+          this.currentSlide.href = 'https://moneyman.ru/warranty/#tab0'
+          return '<p>УПС!</p><p>К сожалению, вам не хватило денег на все траты.</p><p>Предлагаем вам взять первый микрозайем <b>под 0% на 30 дней.</b></p>'
+        case 'success':
+          this.resultImg = 'success'
+          this.currentSlide.nextButton = false
+          this.currentSlide['background-image'] = false
+          return '<p>Поздравляем!</p><p>Вы умеете грамотно распределять свои средства. На вашем счете осталось <b>' + this.$root.$options.filters.toCurrency(this.balance) + '</b></p><p>Предлагаем вам заняться инвестированием, чтобы приумножить свои финансы.</p>'
+        case 'illness':
+          this.resultImg = 'gameOver'
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          this.balance -= 7000
+          this.balance_prompts = [5000]
+          return '<p style="margin-top:1.25em;">Побочным эффектом являются проблемы со здоровьем, дополнительные траты — 5 000 ₽ на поход к врачу</p>'
+        case 'car':
+          this.resultImg = 'gameOver'
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          this.balance -= 10000
+          this.balance_prompts = [20000]
+          return '<p>Прилется заплатить за эвакуатор — 20 000 ₽</p>'
+        case 'laundry':
+          this.resultImg = 'gameOver'
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          this.balance -= 2000
+          this.balance_prompts = [5000]
+          return '<p>На свадьбе вы испачкали костюм/платье друзей, необходимо отдать в химчистку — 5 000 ₽</p>'
+        case 'friend':
+          this.resultImg = 'success'
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          this.balance -= 15000
+          this.balance_prompts = [-20000]
+          return '<p>На свадьбе вы встретили бывшего одноклассника, который предложил вам подработку на неделю + 20 000 ₽</p>'
+        case 'lame':
+          this.resultImg = 'gameOver'
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          this.balance -= 2500
+          this.balance_prompts = [1500]
+          return '<p>Чинили вы в плохом сервисе, поэтому он сломался снова — 1 500 ₽ за повторную починку</p>'
+        case 'promo':
+          this.resultImg = 'success'
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          this.balance_prompts = []
+          return '<p>Поздравляем, в компании проходила акция, и вы выиграли этот телефон в подарок</p>'
+        default:
+          this.currentSlide.nextButton = 'Дальше'
+          this.currentSlide['background-image'] = false
+          this.currentSlide['background-color'] = 'bg-green'
+          return '<p>' + this.currentResult + '</p>'
+      }
+    }
+  },
   methods: {
     changeSlide() {
-      if (!this.balance && this.currentSlide.n == 0) return this.tooltip = true
+      if (!this.balance && this.currentSlide.n == 1) return this.tooltip = true
+      if (this.checkBalance()) return
+      if (this.currentSlide.n == this.slides.length) return this.currentResult = 'success'
+      this.currentResult = ''
+      this.currentSlide = this.slides.find(s => s.n === this.currentSlide.n + 1)
+      return this.checkBalance(true)
+    },
+    checkBalance (post) {
       if (this.balance_prompts) {
-        this.balance = this.balance - this.balance_prompts.reduce((a, b) => a + b, 0)
+        this.balance -= this.balance_prompts.reduce((a, b) => a + b, 0)
         this.balance_prompts = []
       }
-      if (this.balance <= 0) {
-        this.currentSlide.nextButton = 'Перейти'
-        this.currentSlide.href = '#'
-        return this.currentResult = this.results.find(s => s.status === 'gameOver')
+      let check = (this.balance <= 0)
+      if (post && this.currentSlide.buttons) {
+        check = (this.balance - this.currentSlide.buttons.reduce((prev, curr) => prev.price < curr.price ? prev : curr).price) < 0
       }
-      if (this.currentSlide.n == this.slides.length) {
-        this.currentSlide.nextButton = false
-        return this.currentResult = this.results.find(s => s.status === 'success')
-      }
-      return this.currentSlide = this.slides.find(s => s.n === this.currentSlide.n + 1)
+      if (check) this.currentResult = 'gameOver'
+      return check
     },
     externalLink (link) {
       window.location.href = link;
@@ -640,7 +767,7 @@ body {
     max-width: 40em;
     
     @media (min-width: 760px) {
-      font-size: 1.375em
+      font-size: 1.375em;
     }
     
     &.balance-prompt {
@@ -654,10 +781,20 @@ body {
     .prompt__title, .prompt__input {
 
       @media (min-width: 760px) {
+        --tw-bg-opacity: 0.5;
         height: 4em;
         align-items: center;
         padding: 1em;
         line-height: 2;
+      }
+    }
+
+    &:focus-within {
+      .prompt__title, .prompt__input {
+
+        @media (min-width: 760px) {
+          --tw-bg-opacity: 1;
+        }
       }
     }
   }
@@ -738,7 +875,7 @@ body {
     
     @media (min-width: 760px) {
       font-size: 1.375em;
-      max-width: 17.636363em
+      max-width: 17.636363em;
     }
   }
 
@@ -749,10 +886,54 @@ body {
       animation: fade_from_bottom .3s forwards ease-out;
     }
 
-    p {
+    div {
+      
+      max-width: 50em;
+
+      p {
+        margin-bottom: 1em;
+        font-weight: 400;
+    
+        @media (min-width: 760px) {
+            font-size: 2em;
+        }
+      }
+    }
+  }
+
+  .button {
+
+    width:100%;
+    max-width: 50em;
+    margin-bottom: .5em;
+    padding: 0.6em 1.2em;
+    
+    @media (min-width: 760px) {
+      font-size: 1.375em;
       margin-bottom: 1em;
-      max-width: 25em;
-      font-weight: 400;
+      height: 4em;
+    }
+
+    &:disabled {
+      --tw-bg-opacity: .5;
+
+      &:hover {
+        background-color: rgba(255,255,255, .5);
+      }
+    }
+
+    .button__text {
+      padding-right: 1.2em;
+      align-items: center;
+      height: 100%;
+    }
+
+    .button__price {
+      padding-left: 1.2em;
+      height: 100%;
+      align-items: center;
+      width: 10em;
+      border-left: solid 1px rgba(0, 0, 0, 0.2);
     }
   }
 }
