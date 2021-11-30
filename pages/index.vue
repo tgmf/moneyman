@@ -584,6 +584,7 @@ body {
     animation: fade_back .3s forwards ease-out;
     background-position: right bottom;
     background-repeat: no-repeat;
+    background-size: 26.625em;
 }
 
 .main {
@@ -610,7 +611,7 @@ body {
     -ms-flex: 0 1 auto;
     -webkit-box-flex: 0;
     flex: 0 1 auto;
-    padding: 6.5em 1em 2.5em;
+    padding: 6.5em 1em 2em;
   }
 
   @media screen and (min-width: 1160px) {
@@ -962,39 +963,49 @@ body {
     }
   }
 
-  .button {
-
-    width:100%;
-    max-width: 50em;
-    margin-bottom: .5em;
-    padding: 0.6em 1.2em;
+  .buttons {
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
     
     @media (min-width: 760px) {
-      font-size: 1.375em;
-      margin-bottom: 1em;
-      height: 4em;
+      margin-top: 1.25em;
+      margin-bottom: 1.25em;
     }
 
-    &:disabled {
-      --tw-bg-opacity: .5;
+    .button {
 
-      &:hover {
-        background-color: rgba(255,255,255, .5);
+      width:100%;
+      max-width: 50em;
+      margin-bottom: .5em;
+      padding: 0.6em 1.2em;
+      
+      @media (min-width: 760px) {
+        font-size: 1.375em;
+        margin-bottom: 1em;
+        height: 4em;
       }
-    }
 
-    .button__text {
-      padding-right: 1.2em;
-      align-items: center;
-      height: 100%;
-    }
+      &:disabled {
+        --tw-bg-opacity: .5;
 
-    .button__price {
-      padding-left: 1.2em;
-      height: 100%;
-      align-items: center;
-      width: 10em;
-      border-left: solid 1px rgba(0, 0, 0, 0.2);
+        &:hover {
+          background-color: rgba(255,255,255, .5);
+        }
+      }
+
+      .button__text {
+        padding-right: 1.2em;
+        align-items: center;
+        height: 100%;
+      }
+
+      .button__price {
+        padding-left: 1.2em;
+        height: 100%;
+        align-items: center;
+        width: 10em;
+        border-left: solid 1px rgba(0, 0, 0, 0.2);
+      }
     }
   }
 }
