@@ -979,7 +979,11 @@ body {
 
   .buttons {
     margin-top: 2.5em;
-    margin-bottom: 2.5em;
+    margin-bottom: 1.5em;
+      
+    @media (min-width: 760px) {
+      margin-bottom: 0.5em;
+    }
 
     .button {
 
