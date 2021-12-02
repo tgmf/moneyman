@@ -29,10 +29,10 @@
   <div class="main">
     <div class="title pt-0">
       <h1 class="title__title">
-        Заработай первый миллион
+        Узнайте о своей финансовой грамотности
       </h1>
       <div class="title__subtitle">
-        Приключения предпринимателя в вымышленном городе
+        Пройдите наш тест, чтобы понять насколько правильно вы умеете распоряжаться своими финансами
       </div>
     </div>
 
@@ -229,7 +229,7 @@ export default {
           { text: "Отказаться от приглашения, сославшись на придуманную легенду.<br/>Испортить отношения с друзьями.", price: 0, },
           { text: "Пойти на свадьбу в старом костюме/платье, подарить хороший подарок", price: 10000, result: 'На свадьбе вы&nbsp;встретите любовь всей своей жизни, которая даже не&nbsp;обратит на&nbsp;вас внимания'},
           { text: "Попросить у друзей вечерний наряд, сделать подарок своими руками", price: 2000, result: 'laundry' },
-          { text: "Собраться в салоне, взять костюме напрокат, заказать подарок", price: 15000, result: 'friend' } ], },
+          { text: "Собраться в салоне, взять костюм напрокат, заказать подарок", price: 15000, result: 'friend' } ], },
         { 'n': 7, 'background-image': 'wonka', text: '<p class="font-medium">О нет! Ваш телефон упал в&nbsp;тарелку с&nbsp;борщем, когда вы&nbsp;делали фото для&nbsp;Instagram! Вы его быстро вытащили, но&nbsp;он все равно перестал подавать признаки жизни. Что будете делать?</p>', buttons: [ 
           { text: "Починю старый", price: 2500, result: 'lame' },
           { text: "Купить себе новый телефон", price: 10000 },
@@ -282,7 +282,7 @@ export default {
           this.currentSlide['background-color'] = 'bg-green'
           this.balance -= 10000
           this.balance_prompts = [20000]
-          return '<p>Прилется заплатить за&nbsp;эвакуатор —&nbsp;20&nbsp;000&nbsp;₽</p>'
+          return '<p>Придется заплатить за&nbsp;эвакуатор —&nbsp;20&nbsp;000&nbsp;₽</p>'
         case 'laundry':
           this.resultImg = 'gameOver'
           this.currentSlide.nextButton = 'Дальше'
@@ -785,7 +785,7 @@ body {
     }
 
     .task__text {
-      max-width: 25em;
+      max-width: 30em;
       line-height: 1.2;
       margin-top: 1.25em;
 
