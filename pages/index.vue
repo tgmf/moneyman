@@ -498,14 +498,17 @@ body {
   line-height: 1.4;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
+  
+  @media (min-width: 760px) {
+    font-size: .9375em;
+  }
 
   @media (min-width: 760px) and (-webkit-min-device-pixel-ratio: 1.25) {
-    font-size: .8em;
-      
+    font-size: .75em;
   }
 
   @media (min-width: 760px) and (-webkit-min-device-pixel-ratio: 1.5) {
-    font-size: .666667em;
+    font-size: .625em;
   }
 }
 
