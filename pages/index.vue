@@ -60,7 +60,10 @@
       <div class="background__content w-full h-full absolute rounded-lg md:rounded-3xl">
         <div class="noise__content w-full h-full"/>
       </div>
-      <div class="slide w-full h-full relative flex flex-col justify-center">
+      <div
+        class="slide w-full h-full relative flex flex-col justify-center"
+        :class="'slide-'+currentSlide.n"
+      >
         <div
           v-if="!currentResult"
           class="task flex flex-col justify-center"
@@ -796,6 +799,14 @@ body {
         margin-top: .625em;
       }
     }
+  }
+
+  .slide-6 .task__text {
+    max-width: 33em;
+  }
+
+  .slide-7 .task__text {
+    line-height: 1;
   }
 
   .my-10 {
